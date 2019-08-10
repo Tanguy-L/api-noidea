@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const convert = require('koa-convert');
 const bodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
@@ -49,12 +49,10 @@ app.on('error', (err, ctx) => {
 
 mongoose.Promise = require('bluebird');
 
-const DATABASE_URL = process.env.DATABASE_URL || 'localhost:27017/api_no_idea'
+const DATABASE_URL = process.env.DATABASE_URL || 'localhost:27017/api_no_idea';
 
 mongoose
-    .connect(`mongodb://${DATABASE_URL}/api_no_idea`, {
-      useMongoClient: true
-    })
+    .connect(`mongodb://${DATABASE_URL}/api_no_idea`)
     .then((response) => {
       console.log('mongo connection created');
     })

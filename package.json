@@ -6,11 +6,12 @@
   "author": "Alex Allen",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon -r esm app.js",
     "test": "jest --watchAll"
   },
   "dependencies": {
     "bluebird": "^3.5.5",
+    "esm": "^3.2.25",
     "joi": "^14.3.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",

@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
-mongoose.plugin((schema) => {
-  schema.options.usePushEach = true;
-});
-const ObjectId = mongoose.Schema.Types.ObjectId;
-const Category = require('./Category');
+import * as mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const ProjectSchema = mongoose.Schema = {
+const ObjectId = mongoose.Schema.Types.ObjectId;
+
+const ProjectSchema = new Schema ({
   name: {type: String, required: true, match: /[A-Za-z\W]/},
   versionProject: {
     type: String,
@@ -26,6 +24,7 @@ const ProjectSchema = mongoose.Schema = {
     },
     required: false,
   }],
-};
+});
 
-module.exports = mongoose.model('Project', ProjectSchema);
+let project = mongoose.model('Project', ProjectSchema);
+module.exports = project;
