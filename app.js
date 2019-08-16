@@ -21,7 +21,7 @@ app.use(cors({
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,
   credentials: true,
-  allowMethods: ['GET', 'POST', 'DELETE'],
+  allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }
 ));
@@ -49,7 +49,7 @@ app.on('error', (err, ctx) => {
 
 mongoose.Promise = require('bluebird');
 
-const DATABASE_URL = process.env.DATABASE_URL || 'localhost:27017/api_no_idea';
+const DATABASE_URL = process.env.DATABASE_URL || 'localhost:27017';
 
 mongoose
     .connect(`mongodb://${DATABASE_URL}/api_no_idea`)

@@ -8,7 +8,8 @@ const ProjectSchema = new Schema ({
   versionProject: {
     type: String,
     required: true,
-    match: /\b[v][\d]\b\.\b[\d]\b\.\b[\d]\b/},
+    match: /\b[v][\d]\b\.\b[\d]\b\.\b[\d]\b/
+  },
   date: {type: Date, required: true},
   tasks: [{
     name: {type: String, required: true, unique: true},

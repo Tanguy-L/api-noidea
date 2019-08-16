@@ -1,4 +1,5 @@
 const Category = require('../model/Category');
+const Project = require('../model/Project');
 
 exports.CreateCategory = async (ctx) => {
   try {
@@ -30,8 +31,11 @@ exports.getCategories = async (ctx) => {
 
 exports.deleteCategory = async (ctx) => {
   try {
-    const result = await Category.findOneAndRemove({'_id': ctx.params.id});
-    if (!result) {
+    const result = await Category.deleteOne({'_id': ctx.params.id});
+    const result2 = await Project.update({'tasks.category': ctx.params.id}, {
+      $pull: {tasks: {'category': ctx.params.id}},
+    });
+    if (!result && !result2) {
       throw new Error('Category failed to delete.');
     } else {
       ctx.status = 203;

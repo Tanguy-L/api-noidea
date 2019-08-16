@@ -11,6 +11,9 @@ module.exports = async (ctx, next) => {
     if (err.message.includes('duplicate key error')) {
       ctx.body = 'Error, you try to create object with duplicate key';
     }
+    if (err.message.includes('Path `versionProject` is invalid')) {
+      ctx.body = 'Invalid Regex for version Project';
+    }
     ctx.app.emit('error', err, ctx);
   }
 }

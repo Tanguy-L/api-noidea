@@ -6,9 +6,10 @@ const ObjectId = require('mongoose').Types.ObjectId;
 exports.createTask = async (ctx) => {
   try {
     Joi.validate(ctx.request.body, Validator.registerTask);
-    const result = await Project.update(
-        {'_id': ctx.params.id},
-        {'$push': {tasks: ctx.request.body}}
+    const result = await Project.findOneAndUpdate(
+      {'_id': ctx.params.id},
+      {'$push': {tasks: ctx.request.body}}, 
+      {new:true}
     );
     if (!result) {
       throw new Error(error);
@@ -37,8 +38,11 @@ exports.getAllTasks = async (ctx) => {
 exports.updateTask = async (ctx) => {
   try {
     Joi.validate(ctx.request.body, Validator.updateTask);
-    const result = await Project.update({'tasks._id': ctx.params.id},
-        {$set: {'tasks.$': ctx.request.body}});
+    const tempresult = await Project.find({"tasks._id": ctx.params.id}, {"tasks.$" : 1})
+    const task = tempresult[0].tasks[0];
+    const currentTask = {...task._doc }
+    const newTask = { ...currentTask, ...ctx.request.body };
+    const result = await Project.update({'tasks._id': ctx.params.id},{$set: {'tasks.$': newTask}});
     if (!result) {
       throw new Error(error);
     } else {
