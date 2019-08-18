@@ -10,9 +10,19 @@ const ProjectSchema = new Schema ({
     required: true,
     match: /\b[v][\d]\b\.\b[\d]\b\.\b[\d]\b/
   },
+  categories:[
+    {type: ObjectId, ref: 'category'}
+  ],
   date: {type: Date, required: true},
   tasks: [{
-    name: {type: String, required: true, unique: true},
+    name: {
+      type: String, 
+      required: true, 
+      index: {
+        unique: true,
+        partialFilterExpression: { name: { $type: 'string' } },
+      }
+    },
     description: {type: String, required: true},
     category: {
       type: ObjectId,

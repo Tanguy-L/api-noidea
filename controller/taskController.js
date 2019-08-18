@@ -6,11 +6,20 @@ const ObjectId = require('mongoose').Types.ObjectId;
 exports.createTask = async (ctx) => {
   try {
     Joi.validate(ctx.request.body, Validator.registerTask);
-    const result = await Project.findOneAndUpdate(
-      {'_id': ctx.params.id},
-      {'$push': {tasks: ctx.request.body}}, 
-      {new:true}
-    );
+    let categories = await Project.find({ _id: { $eq: ctx.params.id } }, {categories:1});
+    categories = categories[0].categories;
+    console.log(categories);
+
+    let result;
+    if (categories.includes(ctx.request.body.category)) {
+      result = await Project.findOneAndUpdate(
+        {'_id': ctx.params.id},
+        {'$push': {tasks: ctx.request.body}}, 
+        {new:true}
+      );
+    } else {
+      throw new Error("The category is not defined in the project. Add the category to the project.");
+    }
     if (!result) {
       throw new Error(error);
     } else {

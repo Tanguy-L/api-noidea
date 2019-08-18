@@ -1,4 +1,4 @@
 /node_modules
 /.mongodb_data
-/.mongodata
+/mongodata
 /data
